@@ -1,0 +1,18 @@
+<section class="columns large-8 large-offset-2">
+
+<div class="columns large-8">
+	<h2>Results</h2>
+	<p>(will go here)</p>
+</div>
+
+<div class="columns large-4" ng-show="showYouSearchedFor">
+	<h4>You searched for:</h4>
+	<ul>
+		<li ng-show="$routeParams.t != 'undefined'">Title - <strong>{{$routeParams.t}}</strong></li>
+		<li ng-show="$routeParams.y != 'undefined'">Year - <strong>{{$routeParams.y}}</strong></li>
+		<li ng-show="$routeParams.plot != 'undefined'">Plot Description - <strong>{{$routeParams.plot}}</strong></li>
+	</ul>
+</div>
+
+
+</section>
