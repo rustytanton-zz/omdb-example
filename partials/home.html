@@ -1,14 +1,6 @@
 <section class="columns large-6 large-offset-3 text-center">
 	<form name="omdbSearchForm" >
 		<label><input name="s" ng-model="t" type="text" placeholder="Search for a title" /></label>
-		<label><input name="y" ng-model="y" type="text" placeholder="Search by year (must also enter a title)" /></label>
-		<label>
-			<select name="plot" ng-model="plot">
-				<option value="" default>Select plot description length</option>
-				<option value="short">Short</option>
-				<option value="long">Long</option>
-			</select>
-		</label>
 		<button class="button radius round" ng-click="search()">Go</button>
 	</form>
 </section>
