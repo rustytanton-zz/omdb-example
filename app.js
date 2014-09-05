@@ -1,5 +1,14 @@
 angular.module("OmdbSearch", ["ngRoute"])
 
+	.service("OmdbApi", function($http) {
+		this.search = function(params) {
+			params.callback = 'JSON_CALLBACK';
+			return $http.jsonp("http://www.omdbapi.com/", {
+				params : params
+			});
+		};
+	})
+
 	.controller("HomeController", function ($scope, $location) {
 		$scope.search = function() {
 			$location.url(
@@ -14,16 +23,28 @@ angular.module("OmdbSearch", ["ngRoute"])
 		
 	})
 
-	.controller("SearchController", function ($scope, $routeParams) {
+	.controller("SearchController", function ($scope, $routeParams, OmdbApi) {
+		$scope.searching = true;
+		angular.forEach($routeParams, function(value, key) {
+			if (!value || value == "undefined") {
+				delete $routeParams[key];
+			}
+		});
+		$scope.showYouSearchedFor = $routeParams.t || $routeParams.y || $routeParams.plot;
 		$scope.$routeParams = $routeParams;
-		$scope.showYouSearchedFor = false;
-		if (
-			($routeParams.t && $routeParams.t != 'undefined') ||
-			($routeParams.y && $routeParams.y != 'undefined') ||
-			($routeParams.plot && $routeParams.t != 'undefined')
-		) {
-			$scope.showYouSearchedFor = true;
-		}
+		OmdbApi.search($routeParams).then(function(result) {
+			$scope.searching = false;
+			console.log(result);
+			if (result.data.Error) {
+				$scope.error = true;
+			} else {
+				$scope.done = true;
+				$scope.result = result.data.Search;
+			}
+		}, function() {
+			$scope.searching = false;
+			$scope.error = true;
+		});
 	})
 
 	.config(function($routeProvider, $locationProvider) {
@@ -32,7 +53,7 @@ angular.module("OmdbSearch", ["ngRoute"])
 				templateUrl: '/partials/movie.html',
 				controller: 'MovieController',
 			})
-			.when("/search/title/:t?/year/:y?/plot/:plot?", {
+			.when("/search/title/:s?/year/:y?/plot/:plot?", {
 				templateUrl: '/partials/search.html',
 				controller: 'SearchController',
 			})

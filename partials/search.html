@@ -2,15 +2,25 @@
 
 <div class="columns large-8">
 	<h2>Results</h2>
-	<p>(will go here)</p>
+	
+	<p ng-show="searching">Searching...</p>
+
+	<p ng-show="error">No results found.</p>
+
+	<div ng-show="done">
+		<ul>
+			<li ng-repeat="movie in result"><a href="/movie/{{movie.imdbID}}">{{movie.Title}}</a></li>
+		</ul>
+	</div>
+
 </div>
 
 <div class="columns large-4" ng-show="showYouSearchedFor">
 	<h4>You searched for:</h4>
 	<ul>
-		<li ng-show="$routeParams.t != 'undefined'">Title - <strong>{{$routeParams.t}}</strong></li>
-		<li ng-show="$routeParams.y != 'undefined'">Year - <strong>{{$routeParams.y}}</strong></li>
-		<li ng-show="$routeParams.plot != 'undefined'">Plot Description - <strong>{{$routeParams.plot}}</strong></li>
+		<li ng-show="$routeParams.s">Title - <strong>{{$routeParams.t}}</strong></li>
+		<li ng-show="$routeParams.y">Year - <strong>{{$routeParams.y}}</strong></li>
+		<li ng-show="$routeParams.plot">Plot Description - <strong>{{$routeParams.plot}}</strong></li>
 	</ul>
 </div>
 
